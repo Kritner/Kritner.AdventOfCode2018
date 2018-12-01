@@ -1,14 +1,13 @@
-﻿using Kritner.AdventOfCode2018.Day1.Puzzle1;
-using System;
+﻿using Kritner.AdventOfCode2018.Day1;
 using System.Collections.Generic;
-using System.Text;
 using Xunit;
 
-namespace Kritner.AdventOfCode2018.Tests.Day1.Puzzle1
+namespace Kritner.AdventOfCode2018.Tests.Day1
 {
     public class ChronicalCalibrationTests
     {
-        private ChronalCalibration _subject = new ChronalCalibration();
+        private readonly ChronalCalibration _subject = 
+            new ChronalCalibration();
 
         [Fact]
         public void ShouldCalibrateCorrectly()
@@ -45,7 +44,7 @@ namespace Kritner.AdventOfCode2018.Tests.Day1.Puzzle1
         [Fact]
         public void DoTheThing()
         {
-            var file = _subject.GetFileContents("./Day1/Puzzle1/calibrationData.txt");
+            var file = _subject.GetFileContents("./Day1/calibrationData.txt");
             var ints = _subject.ParseInts(file);
             var result = _subject.CalibrateChronalsOrSomething(ints);
 

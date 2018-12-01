@@ -2,7 +2,7 @@
 using System.IO;
 using System.Linq;
 
-namespace Kritner.AdventOfCode2018.Day1.Puzzle1
+namespace Kritner.AdventOfCode2018.Day1
 {
     /// <summary>
     /// Chronal Calibration - see readme.
@@ -17,7 +17,7 @@ namespace Kritner.AdventOfCode2018.Day1.Puzzle1
         /// </summary>
         /// <param name="values">The values to total</param>
         /// <returns>int</returns>
-        public int CalibrateChronalsOrSomething(IEnumerable<int> values)
+        public virtual int CalibrateChronalsOrSomething(IEnumerable<int> values)
         {
             return values.Sum();
         }
