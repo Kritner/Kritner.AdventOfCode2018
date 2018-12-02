@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 
 namespace Kritner.AdventOfCode2018.Day1
@@ -35,22 +34,6 @@ namespace Kritner.AdventOfCode2018.Day1
             }
 
             return numbers;
-        }
-
-        public IEnumerable<string> GetFileContents(string filePath)
-        {
-            List<string> lines = new List<string>();
-
-            using (var file = new StreamReader(filePath))
-            {
-                string line;
-                while((line = file.ReadLine()) != null)
-                {
-                    lines.Add(line);
-                }
-            }
-
-            return lines;
         }
     }
 }

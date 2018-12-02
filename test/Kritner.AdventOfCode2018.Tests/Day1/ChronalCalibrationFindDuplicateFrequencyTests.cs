@@ -1,4 +1,5 @@
-﻿using Kritner.AdventOfCode2018.Day1;
+﻿using Kritner.AdventOfCode2018.Common;
+using Kritner.AdventOfCode2018.Day1;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -67,7 +68,7 @@ namespace Kritner.AdventOfCode2018.Tests.Day1
         [Fact]
         public void DoTheThing()
         {
-            var file = _subject.GetFileContents("./Day1/calibrationData.txt");
+            var file = Utilities.GetFileContents("./Day1/calibrationData.txt");
             var ints = _subject.ParseInts(file);
             var result = _subject.CalibrateChronalsOrSomething(ints);
 
