@@ -43,9 +43,9 @@ namespace Kritner.AdventOfCode2018.Day2
 
             foreach (var item in inventory)
             {
-                // Create new strings and them to the list
+                // Create new strings and add them to the list.
                 // The new strings will be a copy of the original,
-                // with a single character (the index) swapped in with "*"
+                // with a single character (the current index) swapped in with "*"
                 for (var index = 0; index < item.Length; index++)
                 {
                     var charArrayOfItem = item.ToCharArray();
