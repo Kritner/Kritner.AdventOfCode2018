@@ -1,4 +1,5 @@
-﻿using Kritner.AdventOfCode2018.Day3;
+﻿using Kritner.AdventOfCode2018.Common;
+using Kritner.AdventOfCode2018.Day3;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,7 @@ namespace Kritner.AdventOfCode2018.Tests.Day3
 {
     public class FabricSlicingTests
     {
+        private readonly FabricSlicing _subject = new FabricSlicing();
 
         private class PopulateFabricClaims_FabricSlicing : FabricSlicing
         {
@@ -17,6 +19,32 @@ namespace Kritner.AdventOfCode2018.Tests.Day3
             {
                 return PopulateFabricClaims(fabricClaims);
             }
+        }
+
+        public static IEnumerable<object[]> SampleData =>
+            new List<object[]>()
+            {
+                new object[]
+                {
+                    new[]
+                    {
+                        "#1 @ 1,3: 4x4",
+                        "#2 @ 3,1: 4x4",
+                        "#3 @ 5,5: 2x2"
+                    },
+                    8,
+                    8,
+                    4
+                }
+            };
+
+        [Theory]
+        [MemberData(nameof(SampleData))]
+        public void ShouldValidateSample(string[] fabricClaims, int width, int height, int expectedOverlap)
+        {
+            var result = _subject.GetOverlap(width, height, fabricClaims);
+
+            Assert.Equal(expectedOverlap, result);
         }
 
         [Fact]
@@ -33,6 +61,15 @@ namespace Kritner.AdventOfCode2018.Tests.Day3
             Assert.True(result[0].StartCoordinateY == 3, nameof(FabricSegments.StartCoordinateY));
             Assert.True(result[0].Width == 4, nameof(FabricSegments.Width));
             Assert.True(result[0].Height == 5, nameof(FabricSegments.Height));
+        }
+        
+        [Fact]
+        public void DoTheThing()
+        {
+            var file = Utilities.GetFileContents("./Day3/fabricSlicingData.txt");
+            var result = _subject.GetOverlap(1000, 1000, file);
+
+            Assert.Equal(110383, result);
         }
     }
 }

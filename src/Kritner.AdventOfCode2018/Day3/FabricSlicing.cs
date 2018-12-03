@@ -7,6 +7,12 @@ namespace Kritner.AdventOfCode2018.Day3
 {
     public class FabricSlicing
     {
+        public int GetOverlap(int width, int height, IEnumerable<string> fabricClaims)
+        {
+            var fabric = GetFabricLayout(width, height, fabricClaims);
+            return fabric.GetOverlap();
+        }
+
         protected Fabric GetFabricLayout(int width, int height, IEnumerable<string> fabricClaims)
         {
             var fabric = new Fabric(width, height, PopulateFabricClaims(fabricClaims));
@@ -50,6 +56,16 @@ namespace Kritner.AdventOfCode2018.Day3
             FabricClaims = fabricClaims;
 
             _points = new Point[Width,Height];
+
+            // Instantiate all the points (is there a better way to do this?)
+            for (var row = 0; row < Width; row++)
+            {
+                for (var column = 0; column < Height; column++)
+                {
+                    _points[row, column] = new Point();
+                }
+            }
+
             PopulatePoints();
         }
 
@@ -58,15 +74,35 @@ namespace Kritner.AdventOfCode2018.Day3
 
         public IEnumerable<FabricSegments> FabricClaims { get; }
 
+        public int GetOverlap()
+        {
+            int count = 0;
+            for (var row = 0; row < Width; row++)
+            {
+                for (var column = 0; column < Height; column++)
+                {
+                    if (_points[row, column].HasOverlap)
+                    {
+                        count++;
+                    }
+                }
+            }
+
+            return count;
+        }
+
         private void PopulatePoints()
         {
             foreach (var fabricClaim in FabricClaims)
             {
-                for (var row = 0; row < Width; row++)
+                for (var width = 0; width < fabricClaim.Width; width++)
                 {
-                    for (var column = 0; column < Height; column++)
+                    for (var height = 0; height < fabricClaim.Height; height++)
                     {
-
+                        _points[
+                            fabricClaim.StartCoordinateX + width,
+                            fabricClaim.StartCoordinateY + height
+                        ].Occupied.Add(fabricClaim);
                     }
                 }
             }
@@ -87,6 +123,7 @@ namespace Kritner.AdventOfCode2018.Day3
     public class Point
     {
         public bool IsOccupied => Occupied.Count > 0;
+        public bool HasOverlap => Occupied.Count > 1;
         public List<FabricSegments> Occupied { get; set; } = new List<FabricSegments>();
     }
 }
