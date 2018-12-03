@@ -9,14 +9,8 @@ namespace Kritner.AdventOfCode2018.Day3
     {
         protected Fabric GetFabricLayout(int width, int height, IEnumerable<string> fabricClaims)
         {
-            var fabric = new Fabric()
-            {
-                Width = width,
-                Height = height,
-            };
-
-            fabric.FabricClaims = PopulateFabricClaims(fabricClaims);
-
+            var fabric = new Fabric(width, height, PopulateFabricClaims(fabricClaims));
+            
             return fabric;
         }
 
@@ -47,10 +41,36 @@ namespace Kritner.AdventOfCode2018.Day3
 
     public class Fabric
     {
-        public int Width { get; set; }
-        public int Height { get; set; }
+        private readonly Point[,] _points;
 
-        public IEnumerable<FabricSegments> FabricClaims { get; set; }
+        public Fabric(int width, int height, IEnumerable<FabricSegments> fabricClaims)
+        {
+            Width = width;
+            Height = height;
+            FabricClaims = fabricClaims;
+
+            _points = new Point[Width,Height];
+            PopulatePoints();
+        }
+
+        public int Width { get; }
+        public int Height { get; }
+
+        public IEnumerable<FabricSegments> FabricClaims { get; }
+
+        private void PopulatePoints()
+        {
+            foreach (var fabricClaim in FabricClaims)
+            {
+                for (var row = 0; row < Width; row++)
+                {
+                    for (var column = 0; column < Height; column++)
+                    {
+
+                    }
+                }
+            }
+        }
     }
 
     public class FabricSegments
@@ -62,5 +82,11 @@ namespace Kritner.AdventOfCode2018.Day3
 
         public int StartCoordinateX { get; set; }
         public int StartCoordinateY { get; set; }
+    }
+
+    public class Point
+    {
+        public bool IsOccupied => Occupied.Count > 0;
+        public List<FabricSegments> Occupied { get; set; } = new List<FabricSegments>();
     }
 }
