@@ -47,6 +47,15 @@ namespace Kritner.AdventOfCode2018.Tests.Day3
             Assert.Equal(expectedOverlap, result);
         }
 
+        [Theory]
+        [MemberData(nameof(SampleData))]
+        public void ShouldValidateSampleNoOverlap(string[] fabricClaims, int width, int height, int expectedOverlap)
+        {
+            var result = _subject.GetNoOverlap(width, height, fabricClaims).ToList();
+
+            Assert.Equal(3, result[0].ClaimId);
+        }
+
         [Fact]
         public void ShouldParseClaimsProperly()
         {
@@ -70,6 +79,15 @@ namespace Kritner.AdventOfCode2018.Tests.Day3
             var result = _subject.GetOverlap(1000, 1000, file);
 
             Assert.Equal(110383, result);
+        }
+
+        [Fact]
+        public void DoTheThingVersion2()
+        {
+            var file = Utilities.GetFileContents("./Day3/fabricSlicingData.txt");
+            var result = _subject.GetNoOverlap(1000, 1000, file).ToList();
+
+            Assert.Equal(129, result[0].ClaimId);
         }
     }
 }

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -10,7 +12,13 @@ namespace Kritner.AdventOfCode2018.Day3
         public int GetOverlap(int width, int height, IEnumerable<string> fabricClaims)
         {
             var fabric = GetFabricLayout(width, height, fabricClaims);
-            return fabric.GetOverlap();
+            return fabric.GetOverlapArea();
+        }
+
+        public IEnumerable<FabricSegments> GetNoOverlap(int width, int height, IEnumerable<string> fabricClaims)
+        {
+            var fabric = GetFabricLayout(width, height, fabricClaims);
+            return fabric.GetNoOverlap();
         }
 
         protected Fabric GetFabricLayout(int width, int height, IEnumerable<string> fabricClaims)
@@ -74,7 +82,7 @@ namespace Kritner.AdventOfCode2018.Day3
 
         public IEnumerable<FabricSegments> FabricClaims { get; }
 
-        public int GetOverlap()
+        public int GetOverlapArea()
         {
             int count = 0;
             for (var row = 0; row < Width; row++)
@@ -91,6 +99,12 @@ namespace Kritner.AdventOfCode2018.Day3
             return count;
         }
 
+        public IEnumerable<FabricSegments> GetNoOverlap()
+        {
+            var overlap = GetOverlap();
+            return FabricClaims.ToList().Except(overlap);
+        }
+
         private void PopulatePoints()
         {
             foreach (var fabricClaim in FabricClaims)
@@ -99,13 +113,34 @@ namespace Kritner.AdventOfCode2018.Day3
                 {
                     for (var height = 0; height < fabricClaim.Height; height++)
                     {
-                        _points[
+                        var point = _points[
                             fabricClaim.StartCoordinateX + width,
                             fabricClaim.StartCoordinateY + height
-                        ].Occupied.Add(fabricClaim);
+                        ];
+
+                        point.Occupied.Add(fabricClaim);
                     }
                 }
             }
+        }
+
+        private IEnumerable<FabricSegments> GetOverlap()
+        {
+            List<FabricSegments> list = new List<FabricSegments>();
+
+            for (var row = 0; row < Width; row++)
+            {
+                for (var column = 0; column < Height; column++)
+                {
+                    var point = _points[row, column];
+                    if (point.HasOverlap)
+                    {
+                        list.AddRange(point.Occupied);
+                    }
+                }
+            }
+
+            return list;
         }
     }
 
