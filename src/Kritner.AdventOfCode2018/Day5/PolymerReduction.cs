@@ -25,10 +25,11 @@ namespace Kritner.AdventOfCode2018.Day5
                         // different case
                         if (!currentChar.Equals(previousChar, StringComparison.Ordinal))
                         {
-                            // Remove the last character, don't add this character
+                            // Remove the last character from the builder, don't add this character
                             sb.Remove(i - 1, 1);
-                            // Add the remaining characters
+                            // Add the remaining characters to the builder
                             sb.Append(polymer.Substring(i + 1, polymer.Length - i - 1));
+                            // reset the previous char for next entry into for loop
                             previousChar = "";
                             break;
                         }
@@ -39,14 +40,16 @@ namespace Kritner.AdventOfCode2018.Day5
                     sb.Append(currentChar);
                 }
 
+                // Completed for loo pass, build the string
                 var newString = sb.ToString();
                 
-                // break out of while loop if they're the same string
+                // break out of while loop if they're the same string (has been reduced by maximum amount)
                 if (polymer == newString)
                 {
                     break;
                 }
 
+                // Work with the newly modified string within the for loop
                 polymer = newString;
             }
 
@@ -67,6 +70,7 @@ namespace Kritner.AdventOfCode2018.Day5
             List<string> newPotentialPolymers = new List<string>();
             foreach (var s in groupsOfTypes)
             {
+                // Removes a single type from the potential polymer
                 var charToRemove = new string(new[] { s });
                 var regex = new Regex(charToRemove, RegexOptions.IgnoreCase);
 
@@ -80,7 +84,7 @@ namespace Kritner.AdventOfCode2018.Day5
                 reducedPolymers.Add(ReducePolymer(potentialPolymer));
             }
 
-            // return the smaller one
+            // return the smallest one
             var minLengthPolymer = reducedPolymers.Min(m => m.Length);
             return reducedPolymers.Where(w => w.Length == minLengthPolymer).First();
         }
