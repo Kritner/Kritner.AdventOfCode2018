@@ -18,7 +18,17 @@ namespace Kritner.AdventOfCode2018.Tests.Day5
                 new object[]
                 {
                     "dabAcCaCBAcCcaDA",
-                    10
+                    10,
+                }
+            };
+
+        public static IEnumerable<object[]> SampleData2 =>
+            new List<object[]>()
+            {
+                new object[]
+                {
+                    "dabAcCaCBAcCcaDA",
+                    4,
                 }
             };
 
@@ -31,6 +41,15 @@ namespace Kritner.AdventOfCode2018.Tests.Day5
             Assert.Equal(expectedLength, result.Length);
         }
 
+        [Theory]
+        [MemberData(nameof(SampleData2))]
+        public void ShouldPassSamplePuzzle2(string polymer, int expectedLength)
+        {
+            var result = _subject.FullyReducePolymerByEliminatingSingleUnit(polymer);
+
+            Assert.Equal(expectedLength, result.Length);
+        }
+
         [Fact]
         public void DoTheThingPuzzle1()
         {
@@ -38,6 +57,15 @@ namespace Kritner.AdventOfCode2018.Tests.Day5
             var result = _subject.ReducePolymer(file.First());
 
             Assert.Equal(10638, result.Length);
+        }
+
+        [Fact]
+        public void DoTheThingPuzzle2()
+        {
+            var file = Utilities.GetFileContents("./Day5/sampleData.txt");
+            var result = _subject.FullyReducePolymerByEliminatingSingleUnit(file.First());
+
+            Assert.Equal(4944, result.Length);
         }
     }
 }
