@@ -10,50 +10,39 @@ namespace Kritner.AdventOfCode2018.Day5
     {
         public string ReducePolymer(string polymer)
         {
-            while (true)
+            // Refactored to stack with input from others solutions at: 
+            // https://dev.to/rpalo/aoc-day-5-alchemical-reduction-5b2f/comments
+
+            Stack<string> stack = new Stack<string>();
+            foreach (var c in polymer)
             {
-                StringBuilder sb = new StringBuilder();
-                var previousChar = "";
+                var s = new string(new[] { c });
 
-                for (int i = 0; i < polymer.Length; i++)
+                // the top item in the stack (or empty string if we haven't yet added to stack)
+                var top = stack.Count == 0 ? string.Empty : stack.Peek();
+
+                // if the top item is the same letter, 
+                // but different case than the currently evaluated character,
+                // remove the top item from the stack, and don't add the current character.
+                if (top != "" && top.ToLower() == s.ToLower() && top != s)
                 {
-                    string currentChar = new string(new[] { polymer[i] });
-
-                    // Same letter
-                    if (currentChar.Equals(previousChar, StringComparison.OrdinalIgnoreCase))
-                    {
-                        // different case
-                        if (!currentChar.Equals(previousChar, StringComparison.Ordinal))
-                        {
-                            // Remove the last character from the builder, don't add this character
-                            sb.Remove(i - 1, 1);
-                            // Add the remaining characters to the builder
-                            sb.Append(polymer.Substring(i + 1, polymer.Length - i - 1));
-                            // reset the previous char for next entry into for loop
-                            previousChar = "";
-                            break;
-                        }
-                    }
-
-                    // Record new previous char, append the current char to the builder
-                    previousChar = currentChar;
-                    sb.Append(currentChar);
+                    stack.Pop();
                 }
-
-                // Completed for loo pass, build the string
-                var newString = sb.ToString();
-                
-                // break out of while loop if they're the same string (has been reduced by maximum amount)
-                if (polymer == newString)
+                // No match, add the character to the stack
+                else
                 {
-                    break;
+                    stack.Push(s);
                 }
-
-                // Work with the newly modified string within the for loop
-                polymer = newString;
             }
 
-            return polymer;
+            // Is there a better way to project the stack back into a contiguous string?
+            var sb = new StringBuilder();
+            while(stack.Count > 0)
+            {
+                sb.Append(stack.Pop());
+            }
+
+            return sb.ToString();
         }
 
         public string FullyReducePolymerByEliminatingSingleUnit(string polymer)
