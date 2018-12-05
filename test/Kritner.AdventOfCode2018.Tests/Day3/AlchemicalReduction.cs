@@ -8,7 +8,7 @@ using Xunit;
 
 namespace Kritner.AdventOfCode2018.Tests.Day3
 {
-    public class FabricSlicingTests
+    public class AlchemicalReduction
     {
         private readonly FabricSlicing _subject = new FabricSlicing();
 
