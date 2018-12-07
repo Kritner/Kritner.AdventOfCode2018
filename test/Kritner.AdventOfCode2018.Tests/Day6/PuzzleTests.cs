@@ -1,7 +1,11 @@
 ﻿using Kritner.AdventOfCode2018.Day6;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
+using Kritner.AdventOfCode2018.Common;
+using Xunit;
 
 namespace Kritner.AdventOfCode2018.Tests.Day6
 {
@@ -9,22 +13,24 @@ namespace Kritner.AdventOfCode2018.Tests.Day6
     {
         private readonly Puzzle _subject = new Puzzle();
 
-        public IEnumerable<object[]> SampleData =>
-            new List<object[]>()
-            {
-                new object[]
-                {
-                    new string[] 
-                    {
-                        "1, 1",
-                        "1, 6",
-                        "8, 3",
-                        "3, 4",
-                        "5, 5",
-                        "8, 9"
-                    },
-                    17 // largest non infinite area calculated with Manhattan distance
-                }
-            };
+        public static IEnumerable<object[]> SampleData => SampleDataHelper.SampleData;
+
+        [Theory]
+        [MemberData(nameof(SampleData))]
+        public async Task ShouldSampleDataPuzzle1(string[] inputs, int expectedArea)
+        {
+            var result = await _subject.Puzzle1(inputs);
+
+            Assert.Equal(expectedArea, result);
+        }
+
+        [Fact]
+        public async Task DoTheThingPuzzle1()
+        {
+            var file = Utilities.GetFileContents("./Day6/sampleData.txt");
+            var result = await _subject.Puzzle1(file);
+
+            Assert.Equal(6047, result);
+        }
     }
 }

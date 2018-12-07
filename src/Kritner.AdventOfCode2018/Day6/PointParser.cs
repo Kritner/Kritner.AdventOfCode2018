@@ -7,9 +7,9 @@ namespace Kritner.AdventOfCode2018.Day6
 {
     public class PointParser
     {
-        IEnumerable<Point> GetPointsFromData(IEnumerable<string> inputs)
+        public HashSet<Point> GetPointsFromData(IEnumerable<string> inputs)
         {
-            List<Point> list = new List<Point>();
+            HashSet<Point> list = new HashSet<Point>();
 
             foreach(var input in inputs)
             {
@@ -17,11 +17,13 @@ namespace Kritner.AdventOfCode2018.Day6
 
                 Debug.Assert(coords.Length == 2);
 
-                list.Add(new Point()
-                {
-                    X = int.Parse(coords[0]),
-                    Y = int.Parse(coords[1])
-                });
+                list.Add(
+                    new Point(
+                        int.Parse(coords[0]), 
+                        int.Parse(coords[1]), 
+                        true
+                    )
+                );
             }
 
             return list;
