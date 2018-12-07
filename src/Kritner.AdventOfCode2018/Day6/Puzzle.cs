@@ -17,12 +17,12 @@ namespace Kritner.AdventOfCode2018.Day6
             var areaPerPrimaryPoint = new Dictionary<Point, int>();
             
             List<Task<Point>> tasks = new List<Task<Point>>();
-            grid.Points.ForEach(fe => tasks.Add(fe.GetPrimaryManhattanPoint(grid)));
+            grid.Points.ForEach(fe => tasks.Add(fe.GetFurthestManhattanPrimaryPoint(grid)));
 
-            List<Point> primaryManhattanPoints = new List<Point>();
-            primaryManhattanPoints.AddRange(await Task.WhenAll(tasks));
+            List<Point> manhattanDistancePoints = new List<Point>();
+            manhattanDistancePoints.AddRange(await Task.WhenAll(tasks));
 
-            foreach (var primaryManhattanPoint in primaryManhattanPoints)
+            foreach (var primaryManhattanPoint in manhattanDistancePoints)
             {
                 // No primary point, doesn't count toward anything
                 if (primaryManhattanPoint == null)

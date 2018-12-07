@@ -20,7 +20,7 @@ namespace Kritner.AdventOfCode2018.Day6
             IsPrimaryPoint = isPrimaryPoint;
         }
 
-        public async Task<Point> GetPrimaryManhattanPoint(Grid grid)
+        public async Task<Point> GetFurthestManhattanPrimaryPoint(Grid grid)
         {
             if (IsPrimaryPoint)
             {
