@@ -46,6 +46,28 @@ namespace Kritner.AdventOfCode2018.Day6
                 .Max();
         }
 
+        public async Task<int> Puzzle2(IEnumerable<string> inputs, int maxDistance)
+        {
+            var grid = GetGridFromPointData(inputs);
+
+            var manhattanDistancePoints = new Dictionary<Point, int>();
+            foreach (var point in grid.Points)
+            {
+                manhattanDistancePoints.Add(
+                    point, 
+                    await point.GetManhattanDistanceToAllPrimaryPoints(grid)
+                );
+            }
+
+            var lessThanMinimum = manhattanDistancePoints
+                .Where(w => w.Value < maxDistance)
+                .Select(s => s.Key);
+
+            return lessThanMinimum
+                .Where(w => !w.IsInfinityPoint(grid))
+                .Count();
+        }
+
         protected Grid GetGridFromPointData(IEnumerable<string> inputs)
         {
             return new Grid(_parser.GetPointsFromData(inputs));

@@ -27,23 +27,36 @@ namespace Kritner.AdventOfCode2018.Day6
                 return this;
             }
 
-            var manhattanDistance = new Dictionary<Point, int>();
+            var manhattanDistances = new Dictionary<Point, int>();
             foreach (var point in grid.PrimaryPoints)
             {
-                manhattanDistance.Add(point, await GetManhattanDistance(point));
+                manhattanDistances.Add(point, await GetManhattanDistance(point));
             }
 
-            var minManhattanDistance = manhattanDistance.Values.Min(m => m);
+            var minManhattanDistance = manhattanDistances.Values.Min(m => m);
 
-            if (manhattanDistance.Values.Count(c => c == minManhattanDistance) == 1)
+            if (manhattanDistances.Values.Count(c => c == minManhattanDistance) == 1)
             {
-                return manhattanDistance.First(w => w.Value == minManhattanDistance).Key;
+                return manhattanDistances.First(w => w.Value == minManhattanDistance).Key;
             }
 
             // Minimum manhattan distance is not unique, don't count this point toward any totals.
             return null;
         }
 
+        public async Task<int> GetManhattanDistanceToAllPrimaryPoints(Grid grid)
+        {
+            var tasks = new List<Task<int>>();
+            foreach (var point in grid.PrimaryPoints)
+            {
+                tasks.Add(GetManhattanDistance(point));
+            }
+
+            var results = await Task.WhenAll(tasks);
+
+            return results.Sum();
+        }
+        
         public bool IsInfinityPoint(Grid grid)
         {
             return !(X > grid.MinX && X < grid.MaxX && Y > grid.MinY && Y < grid.MaxY);
