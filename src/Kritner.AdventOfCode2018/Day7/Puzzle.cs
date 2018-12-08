@@ -15,12 +15,6 @@ namespace Kritner.AdventOfCode2018.Day7
         {
             var steps = _parser.ParseSteps(inputs);
 
-
-            var tippyTop = new InstructionOrderedStep()
-            {
-                Label = "",
-            };
-
             var processedSteps = new List<string>();
             GenerateSteps(steps, processedSteps);
             return string.Join("", processedSteps);
