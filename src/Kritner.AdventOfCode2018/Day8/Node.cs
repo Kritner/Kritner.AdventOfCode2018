@@ -45,19 +45,13 @@ namespace Kritner.AdventOfCode2018.Day8
         private int ChildrenWeirdSum()
         {
             var sum = 0;
-            var childIndexes = Metadata.Select(s => s).ToList();
-            foreach (var childIndex in childIndexes)
-            {
-                if (childIndex == 0)
-                {
-                    continue;
-                }
-                else if (childIndex < Children.Count + 1)
-                {
-                    var child = Children[childIndex - 1];
-                    sum += child.UhhhThatsaWeirdWayToSum();
-                }
-            }
+            var applicableChildIndexes = Metadata
+                // Indeces of 0, and greater than the number of children, don't count.
+                .Where(w => w != 0 && w < Children.Count + 1)
+                .ToList();
+
+            applicableChildIndexes.ForEach(fe =>
+                sum += Children[fe - 1].UhhhThatsaWeirdWayToSum());
 
             return sum;
         }
