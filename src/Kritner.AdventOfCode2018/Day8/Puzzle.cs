@@ -16,5 +16,14 @@ namespace Kritner.AdventOfCode2018.Day8
 
             return node.SumOfMetadata();
         }
+
+        public int Puzzle2(string input)
+        {
+            var nodeStack = _parser.ParseInput(input);
+
+            var node = new Node(nodeStack);
+
+            return node.UhhhThatsaWeirdWayToSum();
+        }
     }
 }

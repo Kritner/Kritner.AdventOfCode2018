@@ -22,6 +22,16 @@ namespace Kritner.AdventOfCode2018.Tests.Day8
                 }
             };
 
+        public static IEnumerable<object[]> SampleData2 =>
+            new List<object[]>()
+            {
+                new object[]
+                {
+                    "2 3 0 3 10 11 12 1 1 0 1 99 2 1 1 2",
+                    66
+                }
+            };
+
         [Theory]
         [MemberData(nameof(SampleData1))]
         public void ShouldSample1(string input, int sum)
@@ -38,6 +48,24 @@ namespace Kritner.AdventOfCode2018.Tests.Day8
             var result = _subject.Puzzle1(file.First());
 
             Assert.Equal(45865, result);
+        }
+
+        [Theory]
+        [MemberData(nameof(SampleData2))]
+        public void ShouldSample2(string input, int sum)
+        {
+            var result = _subject.Puzzle2(input);
+
+            Assert.Equal(sum, result);
+        }
+
+        [Fact]
+        public void DoTheThingPuzzle2()
+        {
+            var file = Utilities.GetFileContents("./Day8/sampleData.txt");
+            var result = _subject.Puzzle2(file.First());
+
+            Assert.Equal(22608, result);
         }
     }
 }

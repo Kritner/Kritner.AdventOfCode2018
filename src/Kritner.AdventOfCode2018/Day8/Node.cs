@@ -27,6 +27,41 @@ namespace Kritner.AdventOfCode2018.Day8
             return sum;
         }
 
+        public int UhhhThatsaWeirdWayToSum()
+        {
+            var sum = 0;
+            if (Children.Count == 0)
+            {
+                sum += Metadata.Sum();
+            }
+            else
+            {
+                sum += ChildrenWeirdSum();
+            }
+
+            return sum;
+        }
+
+        private int ChildrenWeirdSum()
+        {
+            var sum = 0;
+            var childIndexes = Metadata.Select(s => s).ToList();
+            foreach (var childIndex in childIndexes)
+            {
+                if (childIndex == 0)
+                {
+                    continue;
+                }
+                else if (childIndex < Children.Count + 1)
+                {
+                    var child = Children[childIndex - 1];
+                    sum += child.UhhhThatsaWeirdWayToSum();
+                }
+            }
+
+            return sum;
+        }
+
         /// <summary>
         /// Parses the pieces of the tree
         /// </summary>
