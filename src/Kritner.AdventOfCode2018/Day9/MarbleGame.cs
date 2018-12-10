@@ -7,11 +7,10 @@ namespace Kritner.AdventOfCode2018.Day9
 {
     public class MarbleGame
     {
-        private CircularLinkedList<int> _marblesOnBoard = new CircularLinkedList<int>();
-        private List<Player> _players = new List<Player>();
+        private readonly CircularLinkedList<int> _marblesOnBoard = new CircularLinkedList<int>();
+        private readonly List<Player> _players = new List<Player>();
         private readonly int _totalMarbles;
         private readonly int _playerCount;
-        private int _marblesPlayed;
 
         public MarbleGame(GameAttributes gameAttributes)
         {
@@ -37,11 +36,11 @@ namespace Kritner.AdventOfCode2018.Day9
 
         private void PlayMarbles()
         {
-            for (var marbleNumber = 1; marbleNumber < _totalMarbles; marbleNumber++)
+            for (var marbleNumber = 1; marbleNumber < _totalMarbles + 1; marbleNumber++)
             {
                 // special logic if marble is mod 23
                 /*
-                 *  keep marble (as points), take marble off board 7 indeces counter clockwise, 
+                 *  keep marble (as points), take marble off board 7 indexes counter clockwise, 
                  *  add both marbles to player's points
                  *  */
                 if (marbleNumber % 23 == 0)
@@ -55,7 +54,7 @@ namespace Kritner.AdventOfCode2018.Day9
                 }
                 else
                 {
-                    var itemToAdd = _marblesOnBoard.GetNext(1);
+                    _marblesOnBoard.GetNext(1);
                     _marblesOnBoard.Add(marbleNumber);
                 }
             }
@@ -63,7 +62,7 @@ namespace Kritner.AdventOfCode2018.Day9
 
         private void SetupPlayers(GameAttributes gameAttributes)
         {
-            for (int i = 0; i < gameAttributes.NumberOfPlayers; i++)
+            for (var i = 0; i < gameAttributes.NumberOfPlayers; i++)
             {
                 _players.Add(new Player()
                 {
