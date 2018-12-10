@@ -48,7 +48,7 @@ namespace Kritner.AdventOfCode2018.Day9
                     var points = marbleNumber;
                     var itemToRemove = _marblesOnBoard.GetPrevious(7);
                     _marblesOnBoard.Remove(itemToRemove);
-                    points += itemToRemove;
+                    points += itemToRemove.Value;
 
                     _players[marbleNumber % _playerCount].Points += points;
                 }

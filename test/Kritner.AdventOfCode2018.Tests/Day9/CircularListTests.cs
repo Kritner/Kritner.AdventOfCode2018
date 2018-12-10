@@ -63,7 +63,7 @@ namespace Kritner.AdventOfCode2018.Tests.Day9
 
             var result = _subject.GetNext(1);
 
-            Assert.Equal(expectedItem, result);
+            Assert.Equal(expectedItem, result.Value);
         }
 
         public static IEnumerable<object[]> TestDataAddValuesAndCheck =>
@@ -162,7 +162,7 @@ namespace Kritner.AdventOfCode2018.Tests.Day9
 
             var result = _subject.GetPrevious(rotateAmount);
 
-            Assert.Equal(expectedItem, result);
+            Assert.Equal(expectedItem, result.Value);
         }
     }
 }
