@@ -44,7 +44,7 @@ namespace Kritner.AdventOfCode2018.Tests.Day9
                 {
                     "30 players; last marble is worth 5807 points",
                     37305
-                //}
+                }
             };
 
         [Theory]
