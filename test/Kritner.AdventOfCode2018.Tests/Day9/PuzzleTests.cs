@@ -44,7 +44,7 @@ namespace Kritner.AdventOfCode2018.Tests.Day9
                 {
                     "30 players; last marble is worth 5807 points",
                     37305
-                }
+                //}
             };
 
         [Theory]
@@ -71,7 +71,7 @@ namespace Kritner.AdventOfCode2018.Tests.Day9
             var file = Utilities.GetFileContents("./Day9/sampleData.txt");
             var result = _subject.Puzzle2(file.First());
 
-            Assert.Equal(398242, result);
+            Assert.Equal(3273842452, result);
         }
     }
 }

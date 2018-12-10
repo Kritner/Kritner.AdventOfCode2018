@@ -10,13 +10,13 @@ namespace Kritner.AdventOfCode2018.Tests.Day9
     public class CircularListTests
     {
         private Test_CircularList<int> _subject;
-        private class Test_CircularList<T> : CircularList<T>
+        private class Test_CircularList<T> : CircularLinkedList<T>
         {
-            public Test_CircularList(List<T> initialValues, int currentIndex, int listSize)
-                : base(listSize)
+            public Test_CircularList(LinkedList<T> initialValues, T currentItem)
             {
                 List = initialValues;
-                CurrentIndex = currentIndex;
+
+                CurrentItem = List.Find(currentItem);
             }
         }
 
@@ -27,43 +27,43 @@ namespace Kritner.AdventOfCode2018.Tests.Day9
                 {
                     new int[] { 0 },
                     0,
-                    1
+                    0
                 },
                 new object[]
                 {
                     new int[] { 0, 1 },
                     1,
-                    1
+                    0
                 },
                 new object[]
                 {
                     new int[] { 0, 2, 1 },
-                    1,
-                    3
+                    2,
+                    1
                 },
                 new object[]
                 {
                     new int[] { 0, 2, 1, 3 },
                     3,
-                    1
+                    0
                 },
                 new object[]
                 {
                     new int[] { 0, 4, 2, 1, 3 },
-                    1,
-                    3
+                    4,
+                    2
                 }
             };
 
         [Theory]
         [MemberData(nameof(TestDataCircularCheck))]
-        public void ShouldReturnProperIndexRotatingClockWise(int[] testData, int currentIndex, int expectedIndex)
+        public void ShouldReturnProperItemRotatingClockWise(int[] testData, int currentItem, int expectedItem)
         {
-            _subject = new Test_CircularList<int>(testData.ToList(), currentIndex, testData.Length + 1);
+            _subject = new Test_CircularList<int>(new LinkedList<int>(testData), currentItem);
 
-            var result = _subject.GetIndexRotatingClockWise(2);
+            var result = _subject.GetNext(1);
 
-            Assert.Equal(expectedIndex, result);
+            Assert.Equal(expectedItem, result);
         }
 
         public static IEnumerable<object[]> TestDataAddValuesAndCheck =>
@@ -86,7 +86,7 @@ namespace Kritner.AdventOfCode2018.Tests.Day9
                 new object[]
                 {
                     new int[] { 0, 2, 1 },
-                    1,
+                    2,
                     3,
                     new int[] { 0, 2, 1, 3 }
                 },
@@ -100,7 +100,7 @@ namespace Kritner.AdventOfCode2018.Tests.Day9
                 new object[]
                 {
                     new int[] { 0, 4, 2, 1, 3 },
-                    1,
+                    4,
                     5,
                     new int[] { 0, 4, 2, 5, 1, 3 }
                 }
@@ -108,16 +108,16 @@ namespace Kritner.AdventOfCode2018.Tests.Day9
 
         [Theory]
         [MemberData(nameof(TestDataAddValuesAndCheck))]
-        public void ShouldCreateExpectedArrays(int[] testData, int currentIndex, int valueToInsert, int[] expectedData)
+        public void ShouldCreateExpectedArrays(int[] testData, int currentItem, int valueToInsert, int[] expectedItems)
         {
-            _subject = new Test_CircularList<int>(testData.ToList(), currentIndex, testData.Length + 1);
+            _subject = new Test_CircularList<int>(new LinkedList<int>(testData), currentItem);
 
-            var indexToInsertOnto = _subject.GetIndexRotatingClockWise(2);
-            _subject.Add(indexToInsertOnto, valueToInsert);
+            var insertOnto = _subject.GetNext(1);
+            _subject.Add(valueToInsert);
 
-            var resultingArray = _subject.UnderlyingList;
+            var resultingArray = _subject.List;
 
-            Assert.Equal(expectedData, resultingArray);
+            Assert.Equal(expectedItems, resultingArray);
         }
 
         public static IEnumerable<object[]> CounterClockwiseRotate =>
@@ -156,13 +156,13 @@ namespace Kritner.AdventOfCode2018.Tests.Day9
 
         [Theory]
         [MemberData(nameof(CounterClockwiseRotate))]
-        public void ShouldCounterClockWiseRotate(int[] input, int currentIndex, int rotateAmount, int expectedIndex)
+        public void ShouldCounterClockWiseRotate(int[] input, int currentItem, int rotateAmount, int expectedItem)
         {
-            _subject = new Test_CircularList<int>(input.ToList(), currentIndex, input.Length + 1);
+            _subject = new Test_CircularList<int>(new LinkedList<int>(input), currentItem);
 
-            var result = _subject.GetIndexRotatingCounterClockWise(rotateAmount);
+            var result = _subject.GetPrevious(rotateAmount);
 
-            Assert.Equal(expectedIndex, result);
+            Assert.Equal(expectedItem, result);
         }
     }
 }
