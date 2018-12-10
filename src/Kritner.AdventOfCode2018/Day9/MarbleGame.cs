@@ -7,19 +7,23 @@ namespace Kritner.AdventOfCode2018.Day9
 {
     public class MarbleGame
     {
-        private CircularList<int> _marblesOnBoard = new CircularList<int>();
+        private CircularList<int> _marblesOnBoard;
         private HashSet<Player> _players = new HashSet<Player>();
         private readonly int _totalMarbles;
         private int _marblesPlayed;
 
         public MarbleGame(GameAttributes gameAttributes)
         {
+            _marblesOnBoard = new CircularList<int>(
+                gameAttributes.LastMarbleValue + 1
+            );
+
             SetupPlayers(gameAttributes);
             SetupPlayersMarbles(gameAttributes);
             _totalMarbles = gameAttributes.LastMarbleValue;
         }
 
-        public int GetWinningElfScore()
+        public long GetWinningElfScore()
         {
             PlayGameTilCompletion();
 

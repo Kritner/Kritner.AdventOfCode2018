@@ -12,6 +12,11 @@ namespace Kritner.AdventOfCode2018.Day9
 
         public ReadOnlyCollection<T> UnderlyingList => List.AsReadOnly();
 
+        public CircularList(int size)
+        {
+            List = new List<T>(size);
+        }
+
         public void Add(int position, T item)
         {
             List.Insert(position, item);
@@ -34,6 +39,8 @@ namespace Kritner.AdventOfCode2018.Day9
 
         public int GetIndexRotatingClockWise(int numberOfPositionsToRotate, int currentIndex)
         {
+            
+
             // no more rotation, this is the index to insert onto
             if (numberOfPositionsToRotate == 0)
             {

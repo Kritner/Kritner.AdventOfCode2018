@@ -12,7 +12,8 @@ namespace Kritner.AdventOfCode2018.Tests.Day9
         private Test_CircularList<int> _subject;
         private class Test_CircularList<T> : CircularList<T>
         {
-            public Test_CircularList(List<T> initialValues, int currentIndex)
+            public Test_CircularList(List<T> initialValues, int currentIndex, int listSize)
+                : base(listSize)
             {
                 List = initialValues;
                 CurrentIndex = currentIndex;
@@ -58,7 +59,7 @@ namespace Kritner.AdventOfCode2018.Tests.Day9
         [MemberData(nameof(TestDataCircularCheck))]
         public void ShouldReturnProperIndexRotatingClockWise(int[] testData, int currentIndex, int expectedIndex)
         {
-            _subject = new Test_CircularList<int>(testData.ToList(), currentIndex);
+            _subject = new Test_CircularList<int>(testData.ToList(), currentIndex, testData.Length + 1);
 
             var result = _subject.GetIndexRotatingClockWise(2);
 
@@ -109,7 +110,7 @@ namespace Kritner.AdventOfCode2018.Tests.Day9
         [MemberData(nameof(TestDataAddValuesAndCheck))]
         public void ShouldCreateExpectedArrays(int[] testData, int currentIndex, int valueToInsert, int[] expectedData)
         {
-            _subject = new Test_CircularList<int>(testData.ToList(), currentIndex);
+            _subject = new Test_CircularList<int>(testData.ToList(), currentIndex, testData.Length + 1);
 
             var indexToInsertOnto = _subject.GetIndexRotatingClockWise(2);
             _subject.Add(indexToInsertOnto, valueToInsert);
@@ -157,7 +158,7 @@ namespace Kritner.AdventOfCode2018.Tests.Day9
         [MemberData(nameof(CounterClockwiseRotate))]
         public void ShouldCounterClockWiseRotate(int[] input, int currentIndex, int rotateAmount, int expectedIndex)
         {
-            _subject = new Test_CircularList<int>(input.ToList(), currentIndex);
+            _subject = new Test_CircularList<int>(input.ToList(), currentIndex, input.Length + 1);
 
             var result = _subject.GetIndexRotatingCounterClockWise(rotateAmount);
 

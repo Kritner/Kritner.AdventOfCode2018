@@ -8,7 +8,7 @@ namespace Kritner.AdventOfCode2018.Day9
     {
         private readonly MarbleParser _parser = new MarbleParser();
 
-        public int Puzzle1(string input)
+        public long Puzzle1(string input)
         {
             var gameAttributes = _parser.ParseInput(input);
 
@@ -17,7 +17,7 @@ namespace Kritner.AdventOfCode2018.Day9
             return game.GetWinningElfScore();
         }
 
-        public int Puzzle2(string input)
+        public long Puzzle2(string input)
         {
             var gameAttributes = _parser.ParseInput(input);
             gameAttributes.LastMarbleValue *= 100;
