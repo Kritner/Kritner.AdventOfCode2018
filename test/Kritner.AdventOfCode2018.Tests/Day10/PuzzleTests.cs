@@ -82,5 +82,15 @@ namespace Kritner.AdventOfCode2018.Tests.Day10
             // Nothing really to assert here, since we need to interpret ascii art as words.
             Assert.True(true);
         }
+
+        [Fact]
+        public void DoTheThingPuzzle2()
+        {
+            var file = Utilities.GetFileContents("./Day10/sampleData.txt");
+            var result = _subject.Puzzle2(file);
+
+            // Nothing really to assert here, since we need to interpret ascii art as words.
+            Assert.Equal(0, result);
+        }
     }
 }

@@ -7,12 +7,15 @@ namespace Kritner.AdventOfCode2018.Day10
 {
     public class StarCharter
     {
-        public string PlotStarsUntilClosestManhattanDistance(
+        public (string message, int ticks) PlotStarsUntilClosestManhattanDistance(
             List<Star> stars
         )
         {
+            int ticks = 0;
             while (true)
             {
+                ticks++;
+
                 var beforeTickDistance = GetStarsManhattanDistance(stars);
                 // the stars will shift closer to one another until a point at which they don't
                 stars.ForEach(fe => fe.TickForward());
@@ -28,8 +31,9 @@ namespace Kritner.AdventOfCode2018.Day10
 
             // Get back to the time at which they were closest to one another
             stars.ForEach(fe => fe.TickBackward());
+            ticks--;
 
-            return WriteStars(stars);
+            return (WriteStars(stars), ticks);
         }
 
         private string WriteStars(List<Star> stars)

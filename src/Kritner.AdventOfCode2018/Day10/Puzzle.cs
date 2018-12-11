@@ -16,7 +16,16 @@ namespace Kritner.AdventOfCode2018.Day10
 
             var chart = _charter.PlotStarsUntilClosestManhattanDistance(stars.ToList());
 
-            return chart;
+            return chart.message;
+        }
+
+        public int Puzzle2(IEnumerable<string> inputs)
+        {
+            var stars = _parser.ParseInput(inputs);
+
+            var chart = _charter.PlotStarsUntilClosestManhattanDistance(stars.ToList());
+
+            return chart.ticks;
         }
     }
 }
