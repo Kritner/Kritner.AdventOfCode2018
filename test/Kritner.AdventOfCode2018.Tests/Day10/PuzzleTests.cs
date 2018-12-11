@@ -90,7 +90,7 @@ namespace Kritner.AdventOfCode2018.Tests.Day10
             var result = _subject.Puzzle2(file);
 
             // Nothing really to assert here, since we need to interpret ascii art as words.
-            Assert.Equal(0, result);
+            Assert.Equal(10932, result);
         }
     }
 }
