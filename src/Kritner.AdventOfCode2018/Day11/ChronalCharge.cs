@@ -7,20 +7,27 @@ namespace Kritner.AdventOfCode2018.Day11
     public class ChronalCharge
     {
         private const int maxDimension = 300;
-        private const int squareDimension = 3;
 
-        private readonly Square[,] _squares = new Square[maxDimension - 2, maxDimension - 2];
         private readonly Cell[,] _cells = new Cell[maxDimension, maxDimension];
+        private readonly Square[,] _squares;
+        private readonly int _squareDimension;
         private readonly int _gridSerialNumber;
 
-        public ChronalCharge(int gridSerialNumber)
+        public ChronalCharge(int gridSerialNumber, int squareDimension)
         {
             _gridSerialNumber = gridSerialNumber;
+            _squareDimension = squareDimension;
+
+            _squares = new Square[
+                maxDimension - _squareDimension + 1,
+                maxDimension - _squareDimension + 1
+            ];
+
             PopulateCells();
             PopulateSquares();
         }
 
-        public Cell GetMaxPowerSquareId()
+        public (Cell cell, int maxPower) GetMaxPowerSquareId()
         {
             int maxPower = int.MinValue;
             Cell cell = null;
@@ -36,7 +43,7 @@ namespace Kritner.AdventOfCode2018.Day11
                 }
             }
 
-            return cell;
+            return (cell, maxPower);
         }
 
         private void PopulateCells()
@@ -54,9 +61,9 @@ namespace Kritner.AdventOfCode2018.Day11
 
         private void PopulateSquares()
         {
-            for (int row = 1; row + squareDimension - 1 <= maxDimension; row++)
+            for (int row = 1; row + _squareDimension - 1 <= maxDimension; row++)
             {
-                for (var column = 1; column + squareDimension - 1 <= maxDimension; column++)
+                for (var column = 1; column + _squareDimension - 1 <= maxDimension; column++)
                 {
                     var squareCells = PopulateCellsForSquare(row, column);
                     _squares[row - 1, column - 1] = new Square(
@@ -68,21 +75,14 @@ namespace Kritner.AdventOfCode2018.Day11
 
         private Cell[,] PopulateCellsForSquare(int row, int column)
         {
-            var squareCells = new Cell[squareDimension, squareDimension];
+            var squareCells = new Cell[_squareDimension, _squareDimension];
 
-            for (var cellX = row; cellX < row + squareDimension; cellX++)
+            for (var cellX = row; cellX < row + _squareDimension; cellX++)
             {
-                for (var cellY = column; cellY < column + squareDimension; cellY++)
+                for (var cellY = column; cellY < column + _squareDimension; cellY++)
                 {
-                    try
-                    {
-                        squareCells[cellX - row, cellY - column] = 
-                        _cells[cellX - 1, cellY - 1];
-                    }
-                    catch (Exception ex)
-                    {
-                        throw;
-                    }
+                    squareCells[cellX - row, cellY - column] = 
+                    _cells[cellX - 1, cellY - 1];
                 }
             }
 
