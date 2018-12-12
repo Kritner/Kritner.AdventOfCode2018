@@ -59,8 +59,9 @@ namespace Kritner.AdventOfCode2018.Tests.Day11
             _output.WriteLine($"{result.cell.X},{result.cell.Y},{result.squareLength}");
 
             // Nothing really to assert here, since we need to interpret ascii art as words.
-            Assert.Equal(21, result.cell.X);
-            Assert.Equal(72, result.cell.Y);
+            Assert.Equal(242, result.cell.X);
+            Assert.Equal(13, result.cell.Y);
+            Assert.Equal(9, result.squareLength);
         }
     }
 }

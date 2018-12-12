@@ -8,10 +8,13 @@ namespace Kritner.AdventOfCode2018.Day11
     {
         private const int maxDimension = 300;
 
-        private readonly Cell[,] _cells = new Cell[maxDimension, maxDimension];
+        private static Dictionary<int, Cell[,]> CellDictionary =
+            new Dictionary<int, Cell[,]>();
         private readonly Square[,] _squares;
         private readonly int _squareDimension;
         private readonly int _gridSerialNumber;
+
+        private Cell[,] _cells;
 
         public ChronalCharge(int gridSerialNumber, int squareDimension)
         {
@@ -48,6 +51,14 @@ namespace Kritner.AdventOfCode2018.Day11
 
         private void PopulateCells()
         {
+            if (CellDictionary.TryGetValue(_gridSerialNumber, out var result))
+            {
+                _cells = result;
+                return;
+            }
+
+            _cells = new Cell[maxDimension, maxDimension];
+
             for (var row = 1; row <= maxDimension; row++)
             {
                 for (var column = 1; column <= maxDimension; column++)
@@ -57,6 +68,8 @@ namespace Kritner.AdventOfCode2018.Day11
                     cell.GetPowerLevel();
                 }
             }
+
+            CellDictionary.Add(_gridSerialNumber, _cells);
         }
 
         private void PopulateSquares()
