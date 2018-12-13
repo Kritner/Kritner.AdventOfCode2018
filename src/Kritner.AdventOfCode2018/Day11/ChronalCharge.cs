@@ -8,13 +8,13 @@ namespace Kritner.AdventOfCode2018.Day11
     {
         private const int maxDimension = 300;
 
-        private static Dictionary<int, Cell[,]> CellDictionary =
-            new Dictionary<int, Cell[,]>();
+        private static Dictionary<int, int[,]> CellDictionary =
+            new Dictionary<int, int[,]>();
         private readonly Square[,] _squares;
         private readonly int _squareDimension;
         private readonly int _gridSerialNumber;
 
-        private Cell[,] _cells;
+        private int[,] _cells;
 
         public ChronalCharge(int gridSerialNumber, int squareDimension)
         {
@@ -27,26 +27,31 @@ namespace Kritner.AdventOfCode2018.Day11
             ];
 
             PopulateCells();
-            PopulateSquares();
         }
 
-        public (Cell cell, int maxPower) GetMaxPowerSquareId()
+        public Square GetMaxPowerSquare()
         {
-            int maxPower = int.MinValue;
-            Cell cell = null;
-
-            foreach (var s in _squares)
+            Square square = new Square()
             {
-                var squarePower = s.GetSquarePower();
+                TotalPower = int.MinValue
+            };
 
-                if (squarePower > maxPower)
+            for (int row = 1; row + _squareDimension - 1 <= maxDimension; row++)
+            {
+                for (var column = 1; column + _squareDimension - 1 <= maxDimension; column++)
                 {
-                    maxPower = squarePower;
-                    cell = s.SquareId;
+                    var squareTotal = GetTotalForSquare(row, column);
+                    if (squareTotal > square.TotalPower)
+                    {
+                        square.X = row;
+                        square.Y = column;
+                        square.SquareSize = _squareDimension;
+                        square.TotalPower = squareTotal;
+                    }
                 }
             }
 
-            return (cell, maxPower);
+            return square;
         }
 
         private void PopulateCells()
@@ -57,49 +62,33 @@ namespace Kritner.AdventOfCode2018.Day11
                 return;
             }
 
-            _cells = new Cell[maxDimension, maxDimension];
+            _cells = new int[maxDimension, maxDimension];
 
             for (var row = 1; row <= maxDimension; row++)
             {
                 for (var column = 1; column <= maxDimension; column++)
                 {
                     var cell = new Cell(row, column, _gridSerialNumber);
-                    _cells[row - 1, column - 1] = cell;
-                    cell.GetPowerLevel();
+                    _cells[row - 1, column - 1] = cell.GetPowerLevel();
                 }
             }
 
             CellDictionary.Add(_gridSerialNumber, _cells);
         }
-
-        private void PopulateSquares()
+        
+        private int GetTotalForSquare(int row, int column)
         {
-            for (int row = 1; row + _squareDimension - 1 <= maxDimension; row++)
-            {
-                for (var column = 1; column + _squareDimension - 1 <= maxDimension; column++)
-                {
-                    var squareCells = PopulateCellsForSquare(row, column);
-                    _squares[row - 1, column - 1] = new Square(
-                        squareCells
-                    );
-                }
-            }
-        }
-
-        private Cell[,] PopulateCellsForSquare(int row, int column)
-        {
-            var squareCells = new Cell[_squareDimension, _squareDimension];
-
+            int total = 0;
             for (var cellX = row; cellX < row + _squareDimension; cellX++)
             {
                 for (var cellY = column; cellY < column + _squareDimension; cellY++)
                 {
-                    squareCells[cellX - row, cellY - column] = 
-                    _cells[cellX - 1, cellY - 1];
+                    total += 
+                        _cells[cellX - 1, cellY - 1];
                 }
             }
 
-            return squareCells;
+            return total;
         }
     }
 }

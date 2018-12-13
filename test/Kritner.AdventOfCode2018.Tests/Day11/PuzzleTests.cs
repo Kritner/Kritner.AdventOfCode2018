@@ -56,12 +56,12 @@ namespace Kritner.AdventOfCode2018.Tests.Day11
         {
             var result = _subject.Puzzle2(7315);
 
-            _output.WriteLine($"{result.cell.X},{result.cell.Y},{result.squareLength}");
+            _output.WriteLine($"{result.X},{result.Y},{result.SquareSize}");
 
             // Nothing really to assert here, since we need to interpret ascii art as words.
-            Assert.Equal(242, result.cell.X);
-            Assert.Equal(13, result.cell.Y);
-            Assert.Equal(9, result.squareLength);
+            Assert.Equal(242, result.X);
+            Assert.Equal(13, result.Y);
+            Assert.Equal(9, result.SquareSize);
         }
     }
 }

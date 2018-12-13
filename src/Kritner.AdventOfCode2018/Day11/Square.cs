@@ -6,25 +6,9 @@ namespace Kritner.AdventOfCode2018.Day11
 {
     public class Square
     {
-        private readonly Cell[,] _cells;
-
-        public Cell SquareId { get; }
-
-        public Square(Cell[,] cells)
-        {
-            SquareId = cells[0, 0];
-            _cells = cells;
-        }
-
-        public int GetSquarePower()
-        {
-            int totalPower = 0;
-            foreach (var cell in _cells)
-            {
-                totalPower += cell.GetPowerLevel();
-            }
-
-            return totalPower;
-        }
+        public int X { get; set; }
+        public int Y { get; set; }
+        public int SquareSize { get; set; }
+        public int TotalPower { get; set; }
     }
 }
