@@ -10,7 +10,8 @@ namespace Kritner.AdventOfCode2018.Day11
 
         private static Dictionary<int, int[,]> CellDictionary =
             new Dictionary<int, int[,]>();
-        private readonly Square[,] _squares;
+
+        private static readonly Dictionary<Square, bool> Squares = new Dictionary<Square, bool>();
         private readonly int _squareDimension;
         private readonly int _gridSerialNumber;
 
@@ -21,17 +22,14 @@ namespace Kritner.AdventOfCode2018.Day11
             _gridSerialNumber = gridSerialNumber;
             _squareDimension = squareDimension;
 
-            _squares = new Square[
-                maxDimension - _squareDimension + 1,
-                maxDimension - _squareDimension + 1
-            ];
-
             PopulateCells();
         }
 
         public Square GetMaxPowerSquare()
         {
-            Square square = new Square()
+            Square square = null;
+            
+            square = new Square()
             {
                 TotalPower = int.MinValue
             };
